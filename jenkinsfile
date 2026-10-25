@@ -47,7 +47,7 @@ stage('Login') {
                 dir('Docker_Jenkins_Automated_Web_Deployment') {
                     sh '''
                         docker compose pull
-                        docker compose up -d
+                        docker compose -f docker-compose.yml up -d
                         docker ps
                         curl -f http://localhost:8080
                         curl -f http://localhost:8081
