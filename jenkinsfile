@@ -52,7 +52,6 @@ stage('Deploy') {
             docker ps
         '''
     }
-}
-        }
+       }
     }
 }
