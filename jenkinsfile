@@ -11,8 +11,8 @@ pipeline {
         stage('Build Images') {
             steps {
                 sh '''
-                    docker build -f Docker_Jenkins_Automated_Web_Deployment/dockerfile-website1 -t arjunsanthosh803/website1:latest .
-                    docker build -f Docker_Jenkins_Automated_Web_Deployment/dockerfile-website2 -t arjunsanthosh803/website2:latest .
+                    docker build -f dockerfile-website1 -t arjunsanthosh803/website1:latest .
+                    docker build -f dockerfile-website2 -t arjunsanthosh803/website2:latest .
                 '''
             }
         }
