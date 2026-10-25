@@ -46,7 +46,7 @@ stage('Login') {
             steps {
                 dir('Docker_Jenkins_Automated_Web_Deployment') {
                     sh '''
-                        docker compose -f docker-compose.yml up -d
+                        docker compose up -d
                         docker ps
                     '''
                 }
