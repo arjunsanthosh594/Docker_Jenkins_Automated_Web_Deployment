@@ -42,15 +42,17 @@ stage('Login') {
             }
         }
 
-        stage('Deploy') {
-            steps {
-                dir('Docker_Jenkins_Automated_Web_Deployment') {
-                    sh '''
-                        docker compose up -d
-                        docker ps
-                    '''
-                }
-            }
+
+stage('Deploy') {
+    steps {
+        sh '''
+            docker compose down
+            docker compose pull
+            docker compose up -d
+            docker ps
+        '''
+    }
+}
         }
     }
 }
