@@ -1,0 +1,55 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Get Code') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build Images') {
+            steps {
+                sh '''
+                    docker build -f Docker_Jenkins_Automated_Web_Deployment/dockerfile-website1 -t arjunsanthosh803/website1:latest Docker_Jenkins_Automated_Web_Deployment/website1
+                    docker build -f Docker_Jenkins_Automated_Web_Deployment/dockerfile-website2 -t arjunsanthosh803/website2:latest Docker_Jenkins_Automated_Web_Deployment/website2
+                '''
+            }
+        }
+
+        stage('Login') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-credentials',
+                    usernameVariable: 'USER',
+                    passwordVariable: 'PASS'
+                )]) {
+                    sh 'echo "$PASS" | docker login -u "$USER" --password-stdin'
+                }
+            }
+        }
+
+        stage('Push Images') {
+            steps {
+                sh '''
+                    docker push arjunsanthosh803/website1:latest
+                    docker push arjunsanthosh803/website2:latest
+                '''
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                dir('Docker_Jenkins_Automated_Web_Deployment') {
+                    sh '''
+                        docker compose pull
+                        docker compose up -d
+                        docker ps
+                        curl -f http://localhost:8080
+                        curl -f http://localhost:8081
+                    '''
+                }
+            }
+        }
+    }
+}
