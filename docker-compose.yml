@@ -1,6 +1,10 @@
+
 services:
   website1:
-    image: nginx:latest
+    image: arjunsanthosh803/website1:latest
+    build:
+      context: .
+      dockerfile: dockerfile-website1
     container_name: website1
     ports:
       - "8081:80"
@@ -8,9 +12,13 @@ services:
       - ./website1:/usr/share/nginx/html
     networks:
       - website-network
+    restart: unless-stopped
 
   website2:
-    image: nginx:latest
+    image: arjunsanthosh803/website2:latest
+    build:
+      context: .
+      dockerfile: dockerfile-website2
     container_name: website2
     ports:
       - "8082:80"
@@ -18,6 +26,7 @@ services:
       - ./website2:/usr/share/nginx/html
     networks:
       - website-network
+    restart: unless-stopped
 
 networks:
   website-network:
